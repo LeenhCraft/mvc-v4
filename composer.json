@@ -1,0 +1,26 @@
+{
+    "name": "windsurf/mvc-v4",
+    "description": "Aplicación MVC con Slim Framework 4 y Eloquent ORM",
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.5",
+        "slim/http": "^1.2",
+        "illuminate/database": "^10.0",
+        "vlucas/phpdotenv": "^5.5",
+        "slim/php-view": "^3.2",
+        "monolog/monolog": "^2.8",
+        "slim/twig-view": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

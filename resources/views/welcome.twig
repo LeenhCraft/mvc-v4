@@ -1,0 +1,16 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 text-center">
+        <h1 class="text-4xl font-bold text-blue-600 mb-4">¡Bienvenido, {{ name }}!</h1>
+        <p class="text-gray-700 text-lg mb-6">
+            Has llegado a la página de bienvenida de tu aplicación Windsurf MVC.
+        </p>
+        <div class="bg-blue-50 p-4 rounded-lg mb-6">
+            <p class="text-blue-800">Esta es una demostración de enrutamiento con parámetros en Slim Framework 4.</p>
+        </div>
+        <a href="/" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded">
+            Volver al inicio
+        </a>
+    </div>
+{% endblock %}

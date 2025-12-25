@@ -1,0 +1,24 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-3xl font-bold mb-4">{{ title }}</h1>
+        <p class="text-gray-700 mb-4">{{ message }}</p>
+
+        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+            <h2 class="text-xl font-semibold mb-2">¡Listo para comenzar!</h2>
+            <p class="mb-4">Tu aplicación está configurada correctamente con:</p>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>Slim Framework 4</li>
+                <li>Eloquent ORM</li>
+                <li>Twig para plantillas</li>
+            </ul>
+        </div>
+
+        <div class="mt-6">
+            <a href="/welcome/Usuario" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Ver mensaje de bienvenida
+            </a>
+        </div>
+    </div>
+{% endblock %}
