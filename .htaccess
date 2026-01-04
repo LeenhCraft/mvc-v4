@@ -6,7 +6,7 @@ Options -Indexes
     # Bloquear acceso directo a archivos/carpetas sensibles si el DocumentRoot apunta a la raíz del proyecto
     RewriteRule ^\.env$ - [F,L]
     RewriteRule ^composer\.(json|lock)$ - [F,L]
-    RewriteRule ^(vendor|app|config|routes|resources|storage)/ - [F,L]
+    RewriteRule ^(vendor|app|config|routes|resources|storage|centinela)/ - [F,L]
 
     # Enviar todo a /public
     RewriteCond %{REQUEST_URI} !^/public/

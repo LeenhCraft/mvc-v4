@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php -l:*)",
+      "Bash(chmod:*)",
+      "Bash(php migrate:*)",
+      "Bash(composer dump-autoload:*)",
+      "Bash(composer require:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(jq:*)",
+      "Bash(php -r:*)"
+    ]
+  }
+}

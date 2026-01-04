@@ -1,0 +1,132 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Database\MigrationRunner;
+
+// Load environment variables
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Bootstrap database connection (same as in config/app.php)
+$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule->addConnection([
+    'driver'    => $_ENV['DB_CONNECTION'],
+    'host'      => $_ENV['DB_HOST'],
+    'database'  => $_ENV['DB_DATABASE'],
+    'username'  => $_ENV['DB_USERNAME'],
+    'password'  => $_ENV['DB_PASSWORD'],
+    'charset'   => 'utf8mb4',
+    'collation' => 'utf8mb4_unicode_ci',
+    'prefix'    => '',
+]);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+// Get command from arguments
+$command = $argv[1] ?? 'help';
+
+$runner = new MigrationRunner(__DIR__ . '/database/migrations');
+
+try {
+    switch ($command) {
+        case 'migrate':
+        case 'up':
+            echo "Running migrations...\n";
+            $executed = $runner->migrate();
+            if (empty($executed)) {
+                echo "✓ No pending migrations\n";
+            } else {
+                foreach ($executed as $migration) {
+                    echo "✓ Migrated: {$migration}\n";
+                }
+                echo "\nCompleted " . count($executed) . " migration(s)\n";
+            }
+            break;
+
+        case 'rollback':
+        case 'down':
+            echo "Rolling back migrations...\n";
+            $rolledBack = $runner->rollback();
+            if (empty($rolledBack)) {
+                echo "✓ Nothing to rollback\n";
+            } else {
+                foreach ($rolledBack as $migration) {
+                    echo "✓ Rolled back: {$migration}\n";
+                }
+                echo "\nRolled back " . count($rolledBack) . " migration(s)\n";
+            }
+            break;
+
+        case 'reset':
+            echo "Resetting all migrations...\n";
+            $confirm = readline("Are you sure? This will rollback ALL migrations [yes/no]: ");
+            if (strtolower(trim($confirm)) === 'yes') {
+                $rolledBack = $runner->reset();
+                foreach ($rolledBack as $migration) {
+                    echo "✓ Rolled back: {$migration}\n";
+                }
+                echo "\nReset " . count($rolledBack) . " migration(s)\n";
+            } else {
+                echo "Cancelled\n";
+            }
+            break;
+
+        case 'status':
+            echo "Migration Status:\n";
+            echo str_repeat('-', 60) . "\n";
+            printf("%-50s %s\n", "Migration", "Status");
+            echo str_repeat('-', 60) . "\n";
+            $status = $runner->status();
+            foreach ($status as $item) {
+                $statusText = $item['ran'] ? '✓ Ran' : '✗ Pending';
+                printf("%-50s %s\n", $item['migration'], $statusText);
+            }
+            echo str_repeat('-', 60) . "\n";
+            break;
+
+        case 'fresh':
+            echo "Fresh migration (reset + migrate)...\n";
+            $confirm = readline("Are you sure? This will DROP ALL TABLES [yes/no]: ");
+            if (strtolower(trim($confirm)) === 'yes') {
+                echo "\nResetting...\n";
+                $rolledBack = $runner->reset();
+                foreach ($rolledBack as $migration) {
+                    echo "✓ Rolled back: {$migration}\n";
+                }
+                echo "\nMigrating...\n";
+                $executed = $runner->migrate();
+                foreach ($executed as $migration) {
+                    echo "✓ Migrated: {$migration}\n";
+                }
+                echo "\nDatabase refreshed!\n";
+            } else {
+                echo "Cancelled\n";
+            }
+            break;
+
+        case 'help':
+        default:
+            echo "Migration Tool - Windsurf MVC\n";
+            echo str_repeat('=', 60) . "\n";
+            echo "Usage: php migrate [command]\n\n";
+            echo "Available commands:\n";
+            echo "  migrate, up     Run pending migrations\n";
+            echo "  rollback, down  Rollback last batch of migrations\n";
+            echo "  reset           Rollback all migrations\n";
+            echo "  fresh           Reset and re-run all migrations\n";
+            echo "  status          Show migration status\n";
+            echo "  help            Show this help message\n";
+            echo str_repeat('=', 60) . "\n";
+            break;
+    }
+} catch (\Throwable $e) {
+    echo "\n✗ Error: " . $e->getMessage() . "\n";
+    if ($_ENV['APP_DEBUG'] === 'true') {
+        echo "\nStack trace:\n" . $e->getTraceAsString() . "\n";
+    }
+    exit(1);
+}

@@ -1,0 +1,55 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div class="max-w-md w-full text-center">
+        <div class="mb-8">
+            <h1 class="text-9xl font-bold text-blue-600">404</h1>
+            <div class="text-6xl font-bold text-gray-300 -mt-8">404</div>
+        </div>
+
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">
+            Página no encontrada
+        </h2>
+
+        <p class="text-gray-600 mb-8">
+            Lo sentimos, la página que estás buscando no existe o ha sido movida.
+        </p>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <p class="text-sm text-gray-500 mb-4">
+                <strong>URL solicitada:</strong>
+            </p>
+            <code class="block bg-gray-100 px-4 py-2 rounded text-sm text-gray-700 break-all">
+                {{ request_path }}
+            </code>
+        </div>
+
+        <div class="space-y-3">
+            <a href="/" class="block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+                <svg class="inline-block w-5 h-5 mr-2 -mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                Volver al inicio
+            </a>
+
+            <button onclick="window.history.back()" class="block w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition duration-200">
+                <svg class="inline-block w-5 h-5 mr-2 -mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Regresar
+            </button>
+        </div>
+
+        <div class="mt-8 text-sm text-gray-500">
+            <p>¿Crees que esto es un error?</p>
+            <p class="mt-2">
+                Rutas disponibles:
+                <a href="/" class="text-blue-600 hover:underline">Inicio</a>,
+                <a href="/contact" class="text-blue-600 hover:underline">Contacto</a>,
+                <a href="/register" class="text-blue-600 hover:underline">Registro</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
